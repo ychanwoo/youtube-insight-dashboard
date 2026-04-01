@@ -3,23 +3,81 @@
 import { useState } from "react";
 import ResultFrame from "./ResultFrame";
 
+export type YoutubeResult = {
+  video: {
+    title: string;
+    publishedAt: string;
+    viewCount: number;
+  };
+  channel: {
+    name: string;
+    subscriberCount: number;
+    totalVideos: number;
+    topViewCount: number;
+    avgViewCount: number;
+  };
+  chartData: {
+    title: string;
+    viewCount: number;
+    likeCount: number;
+    commentCount: number;
+    engagementRate: number;
+  }[];
+};
+
 export default function AnalyzeSection() {
   const [url, setUrl] = useState("");
   const [hasResult, setHasResult] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [result, setResult] = useState<YoutubeResult | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleAnalyze = () => {
+  const isValidYoutubeUrl = (url: string) => {
+    const regex =
+      /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)[a-zA-Z0-9_-]+/;
+    return regex.test(url);
+  };
+
+  const handleAnalyze = async () => {
     if (!url.trim()) {
       setShowModal(true);
       return;
     }
 
-    setHasResult(true);
+    if (!isValidYoutubeUrl(url)) {
+      setShowModal(true);
+      return;
+    }
+    try {
+      setLoading(true);
 
-    setTimeout(() => {
-      const resultSection = document.getElementById("result-section");
-      resultSection?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+      const res = await fetch("/api/youtube", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
+
+      if (!res.ok) {
+        throw new Error("API 호출 실패");
+      }
+
+      const data: YoutubeResult = await res.json();
+
+      setResult(data);
+      setHasResult(true);
+
+      setTimeout(() => {
+        const resultSection = document.getElementById("result-section");
+        resultSection?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } catch (err) {
+      console.error(err);
+      setShowModal(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
@@ -49,7 +107,7 @@ export default function AnalyzeSection() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 md:flex-row">
+            <div className="flex flex-col gap-3 md:flex-row min-w-0">
               <input
                 type="text"
                 value={url}
@@ -61,15 +119,18 @@ export default function AnalyzeSection() {
               <button
                 type="button"
                 onClick={handleAnalyze}
-                className="h-14 rounded-2xl bg-red-600 px-6 text-sm font-bold text-white transition hover:bg-red-500 active:scale-[0.99]"
+                disabled={loading}
+                className="h-14 rounded-2xl bg-red-600 px-6 text-sm font-bold text-white transition hover:bg-red-500 active:scale-[0.99] disabled:opacity-60"
               >
-                Analyze
+                {loading ? "Loading..." : "Analyze"}
               </button>
             </div>
           </div>
         </div>
 
-        {hasResult && <ResultFrame hasResult={hasResult} url={url} />}
+        {hasResult && result && (
+          <ResultFrame hasResult={hasResult} url={url} data={result} />
+        )}
       </section>
 
       {/* Modal */}

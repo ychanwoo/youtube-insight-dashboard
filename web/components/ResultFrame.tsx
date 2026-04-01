@@ -1,12 +1,43 @@
+import EngagementScatterChart from "../components/EngagementScatterChart";
+
+type YoutubeResult = {
+  video: {
+    title: string;
+    publishedAt: string;
+    viewCount: number;
+  };
+  channel: {
+    name: string;
+    subscriberCount: number;
+    totalVideos: number;
+    topViewCount: number;
+    avgViewCount: number;
+  };
+  chartData: {
+    title: string;
+    viewCount: number;
+    likeCount: number;
+    commentCount: number;
+    engagementRate: number;
+  }[];
+};
+
 type ResultFrameProps = {
   hasResult: boolean;
   url: string;
+  data: YoutubeResult;
 };
 
-export default function ResultFrame({ hasResult }: ResultFrameProps) {
-  if (!hasResult) {
-    return null;
-  }
+function formatNumber(value: number) {
+  return value.toLocaleString("ko-KR");
+}
+
+function formatDate(dateString: string) {
+  return new Date(dateString).toLocaleDateString("ko-KR");
+}
+
+export default function ResultFrame({ hasResult, data }: ResultFrameProps) {
+  if (!hasResult) return null;
 
   return (
     <div id="result-section" className="flex w-full flex-col gap-6">
@@ -30,28 +61,28 @@ export default function ResultFrame({ hasResult }: ResultFrameProps) {
           <div className="rounded-3xl border border-neutral-200 bg-white p-5">
             <p className="text-xs text-neutral-500">영상 제목</p>
             <p className="mt-3 text-2xl font-bold leading-tight text-black">
-              Deep Learning Project Demo
+              {data.video.title}
             </p>
           </div>
 
           <div className="rounded-3xl border border-neutral-200 bg-white p-5">
             <p className="text-xs text-neutral-500">채널명</p>
             <p className="mt-3 text-2xl font-bold leading-tight text-black">
-              TubeDashboard Lab
+              {data.channel.name}
             </p>
           </div>
 
           <div className="rounded-3xl border border-neutral-200 bg-white p-5">
             <p className="text-xs text-neutral-500">구독자 수</p>
             <p className="mt-3 text-2xl font-bold leading-tight text-black">
-              128,000
+              {formatNumber(data.channel.subscriberCount)}
             </p>
           </div>
 
           <div className="rounded-3xl border border-neutral-200 bg-white p-5">
             <p className="text-xs text-neutral-500">업로드 날짜</p>
             <p className="mt-3 text-2xl font-bold leading-tight text-black">
-              2026.03.30
+              {formatDate(data.video.publishedAt)}
             </p>
           </div>
         </div>
@@ -64,37 +95,42 @@ export default function ResultFrame({ hasResult }: ResultFrameProps) {
             <div className="mt-5 space-y-4">
               <div className="flex items-center justify-between rounded-2xl bg-neutral-100 px-5 py-4">
                 <span className="text-sm text-neutral-500">총 영상 수</span>
-                <span className="text-xl font-bold text-black">48</span>
+                <span className="text-xl font-bold text-black">
+                  {formatNumber(data.channel.totalVideos)}
+                </span>
               </div>
 
               <div className="flex items-center justify-between rounded-2xl bg-neutral-100 px-5 py-4">
                 <span className="text-sm text-neutral-500">
-                  최고 조회수 영상 조회수
+                  최근 영상 20개 최고 조회수
                 </span>
-                <span className="text-xl font-bold text-black">524,310</span>
+                <span className="text-xl font-bold text-black">
+                  {formatNumber(data.channel.topViewCount)}
+                </span>
               </div>
 
               <div className="flex items-center justify-between rounded-2xl bg-neutral-100 px-5 py-4">
                 <span className="text-sm text-neutral-500">
                   전체 영상 평균 조회수
                 </span>
-                <span className="text-xl font-bold text-black">84,120</span>
+                <span className="text-xl font-bold text-black">
+                  {formatNumber(data.channel.avgViewCount)}
+                </span>
               </div>
             </div>
           </div>
 
           {/* 시각화 */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
+          <div className="min-w-0 rounded-[30px] border border-black/8 bg-white p-5 shadow-sm md:p-6">
             <h3 className="text-2xl font-bold text-black">
-              영상별 조회수 시각화
+              조회수 대비 참여도 분석
             </h3>
-            <p className="mt-2 text-sm text-neutral-500">
-              최근 업로드 영상들의 조회수를 비교하는 그래프가 표시될 영역입니다.
+            <p className="mt-2 text-sm leading-6 text-neutral-500">
+              최근 영상들의 조회수와 참여율을 비교하여, 높은 반응을 얻은 영상을
+              확인할 수 있습니다.
             </p>
 
-            <div className="mt-5 flex min-h-65 items-center justify-center rounded-2xl bg-neutral-100 text-sm text-neutral-500">
-              그래프 영역
-            </div>
+            <EngagementScatterChart data={data.chartData} />
           </div>
         </div>
       </section>

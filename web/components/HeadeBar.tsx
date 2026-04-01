@@ -12,7 +12,7 @@ export default function HeaderBar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-neutral-200 bg-neutral-50 backdrop-blur">
+      <header className="sticky top-0 border-b border-neutral-200 bg-neutral-50 backdrop-blur">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Left */}
           <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default function HeaderBar() {
       </header>
 
       <div
-        className={`fixed inset-0 z-40 bg-black/30 transition-opacity ${
+        className={`fixed inset-0 z-85 bg-black/30 transition-opacity ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
         onClick={() => setIsOpen(false)}
@@ -74,7 +74,7 @@ export default function HeaderBar() {
 
       {/* 사이드바 */}
       <div
-        className={`fixed right-0 top-0 z-50 h-full w-70 bg-white shadow-2xl transition-transform duration-300 ${
+        className={`fixed right-0 top-0 z-90 h-full w-70 bg-white shadow-2xl transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
