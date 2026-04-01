@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import Image from "next/image";
+import logo from "../public/images/ReflectTube_logo.png";
 
 export default function HeaderBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,22 +16,12 @@ export default function HeaderBar() {
       <header className="sticky top-0 border-b border-neutral-200 bg-neutral-50 backdrop-blur">
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Left */}
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-600 shadow-[0_0_15px_rgba(220,38,38,0.25)]">
-              <span className="text-lg font-black text-white">T</span>
-            </div>
+          <div className="flex items-center pl-10">
+            <Image src={logo} alt="logo-image" width={180} height={180} />
 
-            <div className="flex flex-col">
-              <Link
-                href="/"
-                className="text-lg font-extrabold tracking-tight text-black hover:text-red-500"
-              >
-                TubeDashboard
-              </Link>
-              <p className="text-xs text-neutral-500">
-                YouTube Insight & Analytics Platform
-              </p>
-            </div>
+            <p className="text-xs text-neutral-500 ml-2 mt-3">
+              YouTube Insight & Analytics Platform
+            </p>
           </div>
 
           {/* Right */}
