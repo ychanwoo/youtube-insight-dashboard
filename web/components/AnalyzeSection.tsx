@@ -25,8 +25,12 @@ export type YoutubeResult = {
   }[];
 };
 
-export default function AnalyzeSection() {
-  const [url, setUrl] = useState("");
+type Props = {
+  url: string;
+  setUrl: (value: string) => void;
+};
+
+export default function AnalyzeSection({ url, setUrl }: Props) {
   const [hasResult, setHasResult] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [result, setResult] = useState<YoutubeResult | null>(null);
