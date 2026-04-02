@@ -4,11 +4,29 @@ import { useState } from "react";
 import Image from "next/image";
 import logo from "../public/images/ReflectTube_logo.png";
 
-export default function HeaderBar() {
+type Props = {
+  url: string;
+};
+
+export default function HeaderBar({ url }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const handleNavigateTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleViewVideo = () => {
+    if (!url) {
+      setShowVideoModal(true);
+      return;
+    } else {
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+  };
+
+  const handleCloseVideoModal = () => {
+    setShowVideoModal(false);
   };
 
   return (
@@ -17,7 +35,13 @@ export default function HeaderBar() {
         <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Left */}
           <div className="flex items-center pl-10">
-            <Image src={logo} alt="logo-image" width={180} height={180} />
+            <Image
+              src={logo}
+              alt="logo-image"
+              width={666}
+              height={126}
+              className="h-8 w-auto"
+            />
 
             <p className="text-xs text-neutral-500 ml-2 mt-3">
               YouTube Insight & Analytics Platform
@@ -108,14 +132,41 @@ export default function HeaderBar() {
           {/* 하단 */}
           <div className="mt-auto">
             <button
-              onClick={handleNavigateTop}
+              onClick={handleViewVideo}
               className="w-full rounded-2xl bg-red-600 py-3 text-white font-semibold hover:bg-red-500"
             >
-              Analyze Now
+              View Video
             </button>
           </div>
         </div>
       </div>
+      {showVideoModal && (
+        <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-2xl">
+            <div className="relative top-7 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                💬
+              </div>
+              <div>
+                <h2 className="text-lg font-bold text-black">입력 필요</h2>
+                <p className="text-sm text-neutral-500">
+                  먼저 영상을 분석해주세요.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={handleCloseVideoModal}
+                className="rounded-2xl bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-500"
+              >
+                확인
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -1,8 +1,12 @@
+"use client";
+
 import AnalyzeSection from "@/components/AnalyzeSection";
 import Footer from "@/components/Footer";
 import HeaderBar from "@/components/HeadeBar";
+import { useState } from "react";
 
 export default function Home() {
+  const [url, setUrl] = useState("");
   return (
     <main className="relative flex min-h-screen flex-col overflow-x-clip bg-[#f8f8f7] text-black">
       {/* 배경 글로우 */}
@@ -29,8 +33,8 @@ export default function Home() {
 
       {/* 메인 콘텐츠 */}
       <div className="relative z-10 flex flex-1 flex-col">
-        <HeaderBar />
-        <AnalyzeSection />
+        <HeaderBar url={url} />
+        <AnalyzeSection url={url} setUrl={setUrl} />
       </div>
 
       <Footer />
