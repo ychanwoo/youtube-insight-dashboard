@@ -1,0 +1,26 @@
+[
+  {
+    "video_id": "abc123",
+    "title": "Deep Learning Lecture",
+    "segments": [
+      {
+        "start": 0,
+        "end": 20,
+        "text": "오늘은 딥러닝의 기본 개념을 설명합니다",
+        "label": 0
+      },
+      {
+        "start": 20,
+        "end": 40,
+        "text": "이 부분이 핵심인데 꼭 기억해야 합니다",
+        "label": 1
+      },
+      {
+        "start": 40,
+        "end": 60,
+        "text": "예시를 통해 이해해봅시다",
+        "label": 1
+      }
+    ]
+  }
+]
