@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ReflectTube
 
-## Getting Started
+**ReflectTube**는 유튜브 영상 URL 하나만으로  
+영상 및 채널 통계, 댓글 기반 피드백, 쇼츠 활용 구간 추천까지 제공하는  
+**YouTube Insight & Analytics Dashboard**입니다.
 
-First, run the development server:
+사용자는 특정 유튜브 영상 URL을 입력하면,  
+해당 영상과 채널의 핵심 정보를 한눈에 확인하고,  
+시청자 반응을 바탕으로 개선 포인트와 쇼츠로 활용할 만한 구간까지 파악할 수 있습니다.
+
+---
+
+## Overview
+
+ReflectTube는 단순 조회수 확인을 넘어,  
+**영상 성과 분석 + 시청자 피드백 해석 + 재활용 가능한 쇼츠 구간 추천**을 목표로 합니다.
+
+특히 콘텐츠 제작자나 채널 운영자가  
+자신의 영상에 대한 반응을 빠르게 이해하고,  
+향후 콘텐츠 방향을 개선하는 데 도움을 주는 서비스입니다.
+
+---
+
+## Main Features
+
+### 1. URL 기반 영상 및 채널 기본 통계 제공
+
+유튜브 영상 URL을 입력하면, 해당 영상과 채널의 핵심 정보를 분석하여 제공합니다.
+
+제공 예시:
+
+- 영상 제목
+- 채널명
+- 구독자 수
+- 업로드 날짜
+- 총 영상 수
+- 최근 영상 최고 조회수
+- 전체 영상 평균 조회수
+- 조회수 대비 참여도 시각화
+
+이를 통해 사용자는 해당 영상의 성과와 채널의 전반적인 운영 흐름을 직관적으로 파악할 수 있습니다.
+
+---
+
+### 2. 댓글 기반 영상 피드백 분석
+
+영상의 댓글을 분석하여,  
+**영상 내용 자체가 아니라 영상 품질과 시청 경험 측면의 피드백**을 추출합니다.
+
+예시:
+
+- 음질 문제
+- 화질 문제
+- 특정 구간에서 소리가 잘 들리지 않음
+- 설명 속도가 너무 빠름
+- 자막 가독성 문제
+
+또한 긍정적인 반응과 개선 제안도 함께 정리하여  
+콘텐츠 제작자가 실제로 활용할 수 있는 형태의 인사이트를 제공합니다.
+
+예시 출력:
+
+- 핵심 문제
+- 강점
+- 개선 제안
+
+---
+
+### 3. 쇼츠 활용 구간 자동 추천
+
+영상 자막 및 텍스트 기반 분석을 통해  
+쇼츠로 재활용하기 적합한 구간을 자동으로 추천합니다.
+
+제공 예시:
+
+- 시작 시각
+- 종료 시각
+- 추천 점수
+- 추천 이유
+
+예시:
+
+- 02:14 ~ 02:42
+- 05:10 ~ 05:35
+
+이를 통해 사용자는 전체 영상을 직접 다시 보지 않고도  
+쇼츠로 편집하기 좋은 핵심 구간을 빠르게 확인할 수 있습니다.
+
+---
+
+## Expected Benefits
+
+- 유튜브 영상과 채널에 대한 핵심 수치를 빠르게 확인할 수 있음
+- 댓글 반응을 통해 품질 문제와 개선 포인트를 파악할 수 있음
+- 쇼츠 제작에 적합한 구간을 자동으로 추천받을 수 있음
+- 콘텐츠 운영 방향과 편집 전략 수립에 도움을 줄 수 있음
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Recharts
+
+### Backend
+
+- FastAPI
+- Python
+
+### Data / AI
+
+- YouTube Data API
+- Comment / Transcript-based analysis
+- Highlight recommendation model
+
+---
+
+## Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+DL-YouTube/
+├── web/        # Frontend (Next.js)
+└── engine/     # Backend / AI logic (FastAPI, Python)
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
