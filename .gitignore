@@ -1,0 +1,8 @@
+# Root-level ignores for backend secrets and local artifacts
+# Keep secret env files out of git history.
+.env
+.env.*
+engine/.env
+engine/.env.*
+web/.env
+web/.env.*
