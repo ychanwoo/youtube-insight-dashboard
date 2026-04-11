@@ -55,7 +55,150 @@ export default function ResultFrame({ hasResult, data }: ResultFrameProps) {
 
   return (
     <div id="result-section" className="flex w-full flex-col gap-6">
-      {/* 1번째 section: 통계 */}
+      {/* 1번째 section: 댓글 기반 피드백 */}
+      <section className="rounded-3xl border border-neutral-100 p-6 bg-neutral-50 shadow-sm md:p-7 ">
+        <div className="mb-6">
+          <p className="text-sm font-medium text-red-500 pl-1">
+            댓글 기반 피드백
+          </p>
+          <h2 className="mt-1 text-3xl font-bold tracking-tight text-black">
+            Viewer Feedback Summary
+          </h2>
+        </div>
+
+        <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-3">
+          {/* 핵심 문제 */}
+          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
+            <h3 className="text-2xl font-bold text-red-500">핵심 문제</h3>
+
+            <ul className="mt-5 space-y-4">
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-neutral-700">음질 문제</span>
+                  <span className="text-lg font-bold text-black">35%</span>
+                </div>
+              </li>
+
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-neutral-700">
+                    설명 속도 빠름
+                  </span>
+                  <span className="text-lg font-bold text-black">22%</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* 강점 */}
+          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
+            <h3 className="text-2xl font-bold text-black">강점</h3>
+
+            <ul className="mt-5 space-y-4">
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-neutral-700">
+                    내용 이해 쉬움
+                  </span>
+                  <span className="text-lg font-bold text-black">41%</span>
+                </div>
+              </li>
+
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-neutral-700">예시 좋음</span>
+                  <span className="text-lg font-bold text-black">18%</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* 개선 제안 */}
+          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
+            <h3 className="text-2xl font-bold text-black">개선 제안</h3>
+
+            <ul className="mt-5 space-y-4">
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4 text-sm text-neutral-700">
+                마이크 품질 개선 필요
+              </li>
+
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4 text-sm text-neutral-700">
+                설명 속도 조절 필요
+              </li>
+
+              <li className="rounded-2xl bg-neutral-100 px-5 py-4 text-sm text-neutral-700">
+                화질 개선 필요
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 2번째 section: 쇼츠 편집 구간 */}
+      <section className="rounded-3xl border border-neutral-100 bg-neutral-50 p-6 shadow-sm md:p-7">
+        <div className="mb-6">
+          <p className="pl-1 text-sm font-medium text-red-500">
+            쇼츠 활용 포인트
+          </p>
+          <h2 className="mt-1 text-3xl font-bold tracking-tight text-black">
+            Shorts Highlight Recommendation
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-neutral-500">
+            쇼츠로 편집하기 적합한 구간을 추천하여, 짧은 영상으로 재활용할 수
+            있는 포인트를 빠르게 확인할 수 있습니다.
+          </p>
+        </div>
+
+        {/* 쇼츠 구간 적합할떄 */}
+        {data.shortsRecommendation?.isShortable ? (
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+            {data.shortsRecommendation?.highlights?.map((item, index) => (
+              <div
+                key={`${item.startLabel}-${item.endLabel}-${index}`}
+                className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6"
+              >
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-500">
+                    추천 구간 {index + 1}
+                  </span>
+                  <span className="text-sm font-semibold text-neutral-500">
+                    점수 {item.score}
+                  </span>
+                </div>
+
+                <p className="text-2xl font-bold tracking-tight text-black">
+                  {item.startLabel} ~ {item.endLabel}
+                </p>
+
+                <p className="mt-4 rounded-2xl bg-neutral-100 px-4 py-3 text-sm leading-6 text-neutral-700">
+                  {item.reason}
+                </p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          // 쇼츠 제작이 적합하지 않은 경우
+          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-xl">
+                ⚠️
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold text-black">
+                  쇼츠 제작이 적합하지 않은 영상입니다
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-neutral-500">
+                  {data.shortsRecommendation?.reason ??
+                    "자막 정보가 부족하거나 쇼츠로 활용할 만한 핵심 구간이 적습니다."}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* 3번째 section: 통계 */}
       <section className="rounded-3xl border border-neutral-100 p-6 bg-neutral-50 shadow-sm md:p-7">
         <div className="mb-6 flex items-start justify-between">
           <div>
@@ -147,149 +290,6 @@ export default function ResultFrame({ hasResult, data }: ResultFrameProps) {
             <EngagementScatterChart data={data.chartData} />
           </div>
         </div>
-      </section>
-
-      {/* 2번째 section: 댓글 기반 피드백 */}
-      <section className="rounded-3xl border border-neutral-100 p-6 bg-neutral-50 shadow-sm md:p-7 ">
-        <div className="mb-6">
-          <p className="text-sm font-medium text-red-500 pl-1">
-            댓글 기반 피드백
-          </p>
-          <h2 className="mt-1 text-3xl font-bold tracking-tight text-black">
-            Viewer Feedback Summary
-          </h2>
-        </div>
-
-        <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-3">
-          {/* 핵심 문제 */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
-            <h3 className="text-2xl font-bold text-red-500">핵심 문제</h3>
-
-            <ul className="mt-5 space-y-4">
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm text-neutral-700">음질 문제</span>
-                  <span className="text-lg font-bold text-black">35%</span>
-                </div>
-              </li>
-
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm text-neutral-700">
-                    설명 속도 빠름
-                  </span>
-                  <span className="text-lg font-bold text-black">22%</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          {/* 강점 */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
-            <h3 className="text-2xl font-bold text-black">강점</h3>
-
-            <ul className="mt-5 space-y-4">
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm text-neutral-700">
-                    내용 이해 쉬움
-                  </span>
-                  <span className="text-lg font-bold text-black">41%</span>
-                </div>
-              </li>
-
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm text-neutral-700">예시 좋음</span>
-                  <span className="text-lg font-bold text-black">18%</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          {/* 개선 제안 */}
-          <div className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6">
-            <h3 className="text-2xl font-bold text-black">개선 제안</h3>
-
-            <ul className="mt-5 space-y-4">
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4 text-sm text-neutral-700">
-                마이크 품질 개선 필요
-              </li>
-
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4 text-sm text-neutral-700">
-                설명 속도 조절 필요
-              </li>
-
-              <li className="rounded-2xl bg-neutral-100 px-5 py-4 text-sm text-neutral-700">
-                화질 개선 필요
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* 3번째 section: 쇼츠 편집 구간 */}
-      <section className="rounded-3xl border border-neutral-100 bg-neutral-50 p-6 shadow-sm md:p-7">
-        <div className="mb-6">
-          <p className="pl-1 text-sm font-medium text-red-500">
-            쇼츠 활용 포인트
-          </p>
-          <h2 className="mt-1 text-3xl font-bold tracking-tight text-black">
-            Shorts Highlight Recommendation
-          </h2>
-          <p className="mt-2 text-sm leading-6 text-neutral-500">
-            쇼츠로 편집하기 적합한 구간을 추천하여, 짧은 영상으로 재활용할 수
-            있는 포인트를 빠르게 확인할 수 있습니다.
-          </p>
-        </div>
-
-        {/* 쇼츠 구간 적합할떄 */}
-        {data.shortsRecommendation?.isShortable ? (
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
-            {data.shortsRecommendation?.highlights?.map((item, index) => (
-              <div
-                key={`${item.startLabel}-${item.endLabel}-${index}`}
-                className="rounded-3xl border border-neutral-200 bg-white p-5 md:p-6"
-              >
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-500">
-                    추천 구간 {index + 1}
-                  </span>
-                  <span className="text-sm font-semibold text-neutral-500">
-                    점수 {item.score}
-                  </span>
-                </div>
-
-                <p className="text-2xl font-bold tracking-tight text-black">
-                  {item.startLabel} ~ {item.endLabel}
-                </p>
-
-                <p className="mt-4 rounded-2xl bg-neutral-100 px-4 py-3 text-sm leading-6 text-neutral-700">
-                  {item.reason}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          // 쇼츠 제작이 적합하지 않은 경우
-          <div className="rounded-3xl border border-neutral-200 bg-white p-6">
-            <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 text-xl">
-                ⚠️
-              </div>
-
-              <div>
-                <h3 className="text-xl font-bold text-black">
-                  쇼츠 제작이 적합하지 않은 영상입니다
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-neutral-500">
-                  {data.shortsRecommendation?.reason ??
-                    "자막 정보가 부족하거나 쇼츠로 활용할 만한 핵심 구간이 적습니다."}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );

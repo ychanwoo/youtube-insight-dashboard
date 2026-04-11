@@ -28,8 +28,8 @@ export default function Footer() {
 
           <div className="flex flex-col md:flex-row md:gap-6">
             <p>20211457 우영찬</p>
-            <p>20221234 강동균</p>
-            <p>20231234 김태양</p>
+            <p>20221293 강동균</p>
+            <p>20231466 김태양</p>
           </div>
         </div>
       </div>
